@@ -1,0 +1,34 @@
+https://github.com/sunxpin/spring-webflux.git
+Stream
+惰性求知
+中间操作 有状态和无状态
+短路操作 limit
+收集器
+    分组
+运行机制
+    Head -> nextStage
+    并行默认使用ForkJoinPoll
+
+Stream终止操作
+foreach 和 foreachOrder
+在并行流中使用foreach是无序的foreachOrder是有序的
+并行流
+parallel()
+sequential()
+多次调用parallel 和 sequential  以最后一次为准
+
+Stream收集器
+
+汇总信息
+
+分块
+
+分组
+
+Stream运行机制简单总结
+1.所有操作都是链式调用,一个元素只循环一次
+2.每一个中间操作返回一个新的流,流中有一个属性sourceStage都指向同一个头Head
+3.Head -> nextStage -> nextStage -> null
+4.有状态操作会截断无状态操作,单独处理
+5.并行环境下,有状态的中间操作不一定并行操作
+6.parallel 和 sequential 也是中间操作也返回流,但是他们不状态流,只是修改Head的并行parallel标志位
