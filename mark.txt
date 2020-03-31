@@ -1,29 +1,31 @@
 https://github.com/sunxpin/spring-webflux.git
-Stream
-惰性求知
-中间操作 有状态和无状态
-短路操作 limit
-收集器
-    分组
+== Stream ==
+== 惰性求值 com.ycorn.stream.StreamTest.lazyLoad ==
+如果Stream中没有调用终止操作,不会执行中间操作
+
+== 中间操作分为 有状态和无状态 ==
+    无状态操作 filter,map,flatMap,mapToXXX,peek,unordered
+    有状态操作 sorted,distinct,limit,skip
+== 终止操作 分为短路 非短路操作 ==
+    非短路操作 foreach,foreachOrdered,toArray,reduce,collect,max,min,count
+    短路操作 findFirst,findAny,noneMatch,allMatch,anyMatch
+
+== Stream收集器 Collectors ==
+    常用方法toList, toSet, 汇总信息summingXXX , counting
+    分组  分组groupBy 分块partitionBy(分两组)
+    groupBy 第二个重构方法可以传入2个参数 第一个参数是functional 入参为元素 出参为Key,第二个参数是对分组之后元素的操作 implementing the downstream reduction 如Collectors.counting max 等一些Collectors的操作
+
 运行机制
     Head -> nextStage
     并行默认使用ForkJoinPoll
 
-Stream终止操作
+并行流
 foreach 和 foreachOrder
 在并行流中使用foreach是无序的foreachOrder是有序的
-并行流
 parallel()
 sequential()
 多次调用parallel 和 sequential  以最后一次为准
 
-Stream收集器
-
-汇总信息
-
-分块
-
-分组
 
 Stream运行机制简单总结
 1.所有操作都是链式调用,一个元素只循环一次
@@ -32,3 +34,7 @@ Stream运行机制简单总结
 4.有状态操作会截断无状态操作,单独处理
 5.并行环境下,有状态的中间操作不一定并行操作
 6.parallel 和 sequential 也是中间操作也返回流,但是他们不状态流,只是修改Head的并行parallel标志位
+
+== Java 9 React Stream ==
+
+== WebFlux ==
