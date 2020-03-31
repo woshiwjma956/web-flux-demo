@@ -38,3 +38,12 @@ Stream运行机制简单总结
 == Java 9 React Stream ==
 
 == WebFlux ==
+
+
+== SSE server send event ==
+
+WebExchangeBindException
+
+RouterFunction 模式
+
+WebClient 模式
