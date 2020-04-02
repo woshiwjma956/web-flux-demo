@@ -1,0 +1,39 @@
+###
+GET http://localhost:8081/webClient/user/354
+
+###
+GET http://localhost:8081/webClient/user/id?id=1
+
+###
+POST  http://localhost:8081/webClient/valid/
+Content-Type: application/json
+
+{
+  "id":"354",
+  "name":"test443",
+  "age":144
+}
+
+###
+GET http://localhost:8080/user/mvc/
+
+###
+GET http://localhost:8080/user/
+
+###
+GET http://localhost:8081/webClient/user/
+
+###
+DELETE http://localhost:8081/webClient/354
+
+###
+PUT http://localhost:8081/webClient/
+Content-Type: application/json
+
+{
+  "id":"34",
+  "name":"32131",
+  "age":31
+}
+
+###

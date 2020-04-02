@@ -7,9 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
@@ -43,11 +41,6 @@ public class UserHandler {
         return serverRequest.bodyToMono(User.class).flatMap(user ->
                 ServerResponse.ok().contentType(APPLICATION_JSON).body(userRepository.save(user), User.class)
         );
-    }
-
-    @PostMapping(value = "/user/valid", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<User> createValid(@Validated @RequestBody Mono<User> userMono) {
-        return userMono.flatMap(userRepository::save);
     }
 
     public Mono<ServerResponse> update(@Validated ServerRequest serverRequest) {

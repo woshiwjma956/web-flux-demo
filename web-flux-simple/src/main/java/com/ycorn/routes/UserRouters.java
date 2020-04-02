@@ -1,7 +1,5 @@
 package com.ycorn.routes;
 
-import com.sun.corba.se.spi.activation.Server;
-import com.ycorn.entity.User;
 import com.ycorn.handler.UserHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
