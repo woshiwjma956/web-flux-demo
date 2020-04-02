@@ -1,4 +1,6 @@
 https://github.com/sunxpin/spring-webflux.git
+
+https://www.jianshu.com/p/b70c4692f97a
 == Stream ==
 == 惰性求值 com.ycorn.stream.StreamTest.lazyLoad ==
 如果Stream中没有调用终止操作,不会执行中间操作
@@ -36,14 +38,47 @@ Stream运行机制简单总结
 6.parallel 和 sequential 也是中间操作也返回流,但是他们不状态流,只是修改Head的并行parallel标志位
 
 == Java 9 React Stream ==
+Publisher 发布者  SubmissionPublisher this.submit()
+Subscriber 订阅者 实现 Subscriber
+Processor 中间处理器 pipeline中间环节 实现Processor 接口
+    在建立连接 onSubscribe中保存subscription 并申请数据  this.subscription.request(1);
+    在onNext 中 当获取到数据之后处理完毕之后调用  this.subscription.request(1);获取数据
+
+
 
 == WebFlux ==
 
 
 == SSE server send event ==
 
-WebExchangeBindException
+== WebExchangeBindException ==
+老的Spring MVC 参数校验
+@ExceptionHandler(BindException.class)
+如果使用Spring 的@Validated     @ExceptionHandler(MethodArgumentNotValidException.class)
+新的WebFlux 参数校验
+@ExceptionHandler(WebExchangeBindException.class)
+
 
 RouterFunction 模式
+Webflux 是 Spring Cloud 2.0 Gateway 的实现方式, RouterFunction 就是Gateway 中的routes的实现
+RouterFunction 是一个路由器,绑定了predict来断言请求, 再绑定一个返回HandlerFunction的方法
+这里是链式调用,注意route里面包裹的路径
+@Bean
+RouterFunction<ServerResponse> userRouter(UserHandler userHandler) {
+    return nest(RequestPredicates.path("/user"),
+            route(GET("/{id}"), userHandler::findById)
+                    .andRoute(GET("/"), userHandler::findAll)
+                    .andRoute(POST("/").and(RequestPredicates.accept(MediaType.APPLICATION_JSON)), userHandler::create)
+                    .andRoute(PUT("/{id}"), userHandler::update)
+                    .andRoute(DELETE("/{id}"), userHandler::delete));
+}
+
+== 采坑 ==
+使用注解 @GetMapping 和 @RequestBody 需要返回Mono
+使用@Valid 需要接受参数是Mono<T>
+@PostMapping(value = "/user/valid", produces = MediaType.APPLICATION_JSON_VALUE)
+ public Mono<User> createValid(@Validated @RequestBody Mono<User> userMono) {
+     return userMono.flatMap(userRepository::save);
+ }
 
 WebClient 模式
