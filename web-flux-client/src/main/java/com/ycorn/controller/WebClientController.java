@@ -32,7 +32,7 @@ public class WebClientController {
         return userClient.findByIdParams(id);
     }
 
-    @GetMapping("/user/")
+    @GetMapping("/user")
     public Flux<User> findAll() {
         return userClient.findAll();
     }
@@ -48,7 +48,7 @@ public class WebClientController {
     }
 
     @PutMapping("/")
-    Mono<User> update(@Validated Mono<User> userMono) {
+    Mono<User> update(@RequestBody @Validated Mono<User> userMono) {
         return userClient.update(userMono);
     }
 

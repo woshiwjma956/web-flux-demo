@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono;
  * @Version 1.0
  */
 @RestController
-@RequestMapping("/user/mvc/")
+@RequestMapping("/mvc/user")
 public class UserController {
 
     @Autowired
@@ -47,9 +47,10 @@ public class UserController {
         return userRepository.deleteById(id);
     }
 
-    @PutMapping("/")
-    public Mono<User> update(@Validated Mono<User> userMono) {
+    @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<User> update(@Validated @RequestBody Mono<User> userMono) {
         return userMono.flatMap(u -> {
+            System.out.println(u);
             if (userRepository.findById(u.getId()) != null) {
                 return userRepository.save(u);
             } else {

@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
  * @Function:
  * @Version 1.0
  */
-@ApiService("http://localhost:8080/user/mvc/")
+@ApiService("http://localhost:8080/mvc/user/")
 public interface UserClient {
     @GetMapping("/{id}")
     Mono<User> findById(@PathVariable("id") String id);
@@ -31,6 +31,6 @@ public interface UserClient {
     @DeleteMapping("/{id}")
     Mono<Void> delete(@PathVariable("id") String id);
 
-    @PutMapping("/")
-    Mono<User> update(@Validated Mono<User> userMono);
+    @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    Mono<User> update(@RequestBody @Validated Mono<User> userMono);
 }
